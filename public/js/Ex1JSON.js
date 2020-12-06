@@ -125,46 +125,35 @@ function showMenschen()  {
  function wikipediaSuche(){
   document.getElementById('showwindow').style.display="block";
   document.body.style.overflow="hidden";
-  var data,tabletext;
+  var data;
+  var tableInhalt;
   var searchfor = document.getElementById('popupli2').value;
    var endpoint = `http://localhost:6001/proxy/?https://de.wikipedia.org/w/api.php?action=query&generator=prefixsearch&gpslimit=20&format=json&prop=extracts%7Cdescription&exintro=1&explaintext=1&excentence=3&gpssearch=${searchfor}`;
    var req = new XMLHttpRequest();
    req.open('GET', endpoint, true);
    req.onload = function() {
-    // Parse the request into JSON
-
     data = JSON.parse(this.response);
-    console.log(data);
-    var main_link;
-    tabletext = "";
+    var wikipedia_link_id;
+    tableInhalt = "";
     for (var key in data.response.query.pages) {
       if (data.response.query.pages.hasOwnProperty(key)) {
-        main_link = "https://de.wikipedia.org/wiki/";
+        wikipedia_link_id = 'https://de.wikipedia.org/w/api.php?action=query&prop=info&pageids='
         var val = data.response.query.pages[key];
-
-        if(val.extract=="" || val.extract==undefined) val.extract = "-";
+        if(val.extract==="" || val.extract===undefined) val.extract = "-";
         if(val.extract!=null && val.extract.length>100) val.extract = val.extract.substring(0,100)+"...";
 
-        if(val.description=="undefined" || val.description==undefined) val.description = "-";
+        if(val.description==="undefined" || val.description===undefined) val.description = "-";
         if(val.description!=null && val.description.length>50) val.description = val.description.substring(0,50)+"...";
+        console.log(val)
+        wikipedia_link_id = wikipedia_link_id + val.pageid.toString() + '&inprop=url';
 
-        var tit = val.title.split(" ");
-        main_link+=tit[0];
-        if(tit.length>0){
-          for(var i=1;i<tit.length;i++){
-          main_link += "_" +tit[i];
-          }
-        }
-
-        //add information to table
-        tabletext += "<tr><td>" + val.title + "</td>" + "<td>" + val.description + "</td>" + "<td>" + val.extract + "</td><td><a href=\" " + main_link + "\">" + "go to Wikipedia" + "</a></td></tr>";
-        console.log(tabletext);
+        tableInhalt += "<tr><td>" + val.title + "</td>" + "<td>" + val.description + "</td>" + "<td>" + val.extract + "</td><td><a href=\" " + wikipedia_link_id + "\">" + "Wikipedia-Page" + "</a></td></tr>";
       }
     }
-    var tableheader = "<table id=\"newWindowTable\"> <tr>";
-    tableheader += "<th>Title</th><th>Description</th><th>Extract</th><th>Link</th></tr>";
-    var tableclosing = "</table>"; //close the table
-    var fulltext = tableheader + tabletext + tableclosing;
+    var tableAnfang = "<table id=\"newWindowTable\"> <tr>";
+    tableAnfang += "<th>Title</th><th>Description</th><th>Extract</th><th>Link</th></tr>";
+    var tableEnde = "</table>";
+    var fulltext = tableAnfang + tableInhalt + tableEnde;
     document.getElementById('showwindowData').innerHTML=fulltext;
 }
   req.send();
