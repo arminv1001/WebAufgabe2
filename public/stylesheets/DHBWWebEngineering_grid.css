@@ -1,0 +1,153 @@
+/* We use this css as an initial css for our webex1.htm after the modification.
+Just using it w/o a change will already make it a bit nicer.
+In our CSS exercise we will take this a step further and
+     1. make the footer  header and navigation line a fixed element
+     2. have the background of each navigation list item switch between two different grey
+     3. We change the navigation entries and put Informatik to the left (instead to the right)
+*/
+* {margin:0;padding:0;box-sizing: border-box;} /* just to force a good default                          */
+header,footer {color: white;  background-color: black; padding:1em;width:100%;}
+/* make header fixed
+ Remember fixed elements are postioned absolute to the window screen/viewport
+ For the header and navigation it might make sense to put both in a  div container and make
+that container fixed using the properties top and left                          */
+
+#completeHeader {position:fixed; top:0; left:0; width:100%;}
+/* Make the footer fixed                                                        */
+footer {position:fixed; bottom:0;}
+/*
+/* Now let's make the Navigation bar look cool
+/* Give the navigation bar a darkgrey background                                */
+nav {background:darkgrey;}
+nav::after{clear:both; content:""; display:block;}   /* just take this          */
+/* Give each even list item the color #848d9e; and each odd #e2e4e8;            */
+nav li:nth-child(2n) {background: #848d9e;}
+nav li:nth-child(2n+1) {background: #e2e4e8;}
+/* The next CSS defines the list item in general (beside the background color)
+/* we use
+list-style-type: none; to not show bullets
+float:right; to let all items float to the right
+padding:1.3rem; to enlarge each navigation link
+and we just mean the list items (li) after the nav (not potential others)
+.. how would you construct the CSS for that                                     */
+nav li {list-style-type: none;float:right;padding:1.3rem;}
+/* For the floating there is one exception the first li should go the the left.
+How ?                                                                           */
+nav li:first-child {float:left}
+/* Take the rest as it is or modify to improve.. this is up to you              */
+nav li:hover {background-color:white;}
+nav li a { text-decoration: none; padding: inherit; color: yellow; font-weight: bold;}
+a:visited { color: blue;}
+a:hover, a:active, a:focus { color: darkred;  text-decoration: none;}
+section { clear:both; padding:5em; border-bottom: 2px solid black; background-color: #666;}
+/* Properties for the table */
+table {clear:both; margin:10px 2px 10px 2px; border-collapse: collapse;}
+tr:hover{background-color:rgba(20, 20, 58, 0.29);}
+td {border: 2px solid lightgrey;}
+td:nth-child(n) {padding:10px;}
+td img {width:100%;min-width: 200px;}
+
+.grid-container{
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-gap: 10px;
+  background-color: #2196F3;
+  padding: 10px;
+}
+.item1 {
+  height: 50px;
+}
+.text {
+  float: right;
+  width: 70%;
+  height: 10em;
+}
+.bild {
+  height: 10em;
+  width: 30%;
+  float: left;
+}
+
+
+
+/* Responsive Stuff
+------------------------------------------------------
+The next statements are needed to clear the floating after each row               */
+.row:after { clear: both; content: ""; display: block;}
+/* for all .col class element we define the floating                            */
+[class*="col-"] {float: left;}
+/* use media query to push the different styles
+/* For mobile phones: */
+/* For Handy  10 width to 450 */
+@media only screen and (min-width: 10px) {
+  /* We define the left floating and the smallest block, in general the width is 1% smaller
+  because we have a left-margin gap of 1% 100/12 % is 8.33%*/
+  .col-handy1 {width: 8.33%;}
+  .col-handy2 {width: 16.66%;}
+  .col-handy3 {width: 25%;}
+  .col-handy4 {width: 33.33%;}
+  .col-handy5 {width: 41.66%;}
+  .col-handy6 {width: 50%;}
+  .col-handy7 {width: 58.33%;}
+  .col-handy8 {width: 66.66%;}
+  .col-handy9 {width: 75%;}
+  .col-handy10 {width: 83.33%;}
+  .col-handy11 {width: 91.66%;}
+  .col-handy12 {width: 100%;}
+  span.headertext {font-size: 1.8em;}
+  section p {font-size: 0.8em;}
+  nav li {border-bottom: 1px solid white; border-left:none;}
+}
+    /* For small  tablets: 450-700  */
+@media only screen and (min-width: 450px) {
+/* now we add the grid sizes for all other potential boxes ..
+the selector means that elemts are selected which have both classes */
+.col-small1 {width: 8.33%;}
+.col-small2 {width: 16.66%;}
+.col-small3 {width: 25%;}
+.col-small4 {width: 33.33%;}
+.col-small5 {width: 41.66%;}
+.col-small6 {width: 50%;}
+.col-small7 {width: 58.33%;}
+.col-small8 {width: 66.66%;}
+.col-small9 {width: 75%;}
+.col-small10 {width: 83.33%;}
+.col-small11 {width: 91.66%;}
+.col-small12 {width: 100%;}
+span.headertext {font-size: 1.9em;}
+section p {font-size: 1.0em;}
+nav li {border-left: 1px solid white; border-bottom: none;}
+}
+@media only screen and (min-width: 700px) {
+  .col-med1 {width: 8.33%;}
+  .col-med2 {width: 16.66%;}
+  .col-med3 {width: 25%;}
+  .col-med4 {width: 33.33%;}
+  .col-med5 {width: 41.66%;}
+  .col-med6 {width: 50%;}
+  .col-med7 {width: 58.33%;}
+  .col-med8 {width: 66.66%;}
+  .col-med9 {width: 75%;}
+  .col-med10 {width: 83.33%;}
+  .col-med11 {width: 91.66%;}
+  .col-med12 {width: 100%;}
+  span.headertext {font-size: 1.5em;}
+  section p {font-size: 1.1em;}
+  nav li {border-left: 1px solid white; border-bottom: none;}
+}
+@media only screen and (min-width: 1000px) {
+  .col-large1 {width: 8.33%;}
+  .col-large2 {width: 16.66%;}
+  .col-large3 {width: 25%;}
+  .col-large4 {width: 33.33%;}
+  .col-large5 {width: 41.66%;}
+  .col-large6 {width: 50%;}
+  .col-large7 {width: 58.33%;}
+  .col-large8 {width: 66.66%;}
+  .col-large9 {width: 75%;}
+  .col-large10 {width: 83.33%;}
+  .col-large11 {width: 91.66%;}
+  .col-large12 {width: 100%;}
+  span.headertext {font-size: 1.9em;}
+  nav li {border-left: 1px solid white; border-bottom: none;}
+}
