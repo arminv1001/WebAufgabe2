@@ -121,14 +121,6 @@ function showMenschen() {
     document.getElementById('showwindow').style.top = "50%";
 }
 
-function apiAnfrage(searchfor) {
-    var endpoint = `http://localhost:6001/proxy/?https://de.wikipedia.org/w/api.php?action=query&generator=prefixsearch&gpslimit=20&format=json&prop=extracts%7Cdescription&exintro=1&explaintext=1&excentence=3&gpssearch=${searchfor}`;
-    var test = 'https://de.wikipedia.org/w/api.php?action=query&prop=info&pageids=11186171&inprop=url'
-    const response = fetch(test)
-        .then(response => response.json())
-        .then(data => console.log(data));
-}
-
 function wikipediaSuche() {
     document.getElementById('showwindow').style.display = "block";
     document.body.style.overflow = "hidden";
@@ -140,23 +132,13 @@ function wikipediaSuche() {
     req.open('GET', endpoint, true);
     req.onload = function () {
         data = JSON.parse(this.response);
-        var wikipedia_link;
+        var wikipedia_link = 'https://de.wikipedia.org/?curid=';
         tableInhalt = "";
         for (var key in data.response.query.pages) {
             if (data.response.query.pages.hasOwnProperty(key)) {
-                wikipedia_link = 'https://de.wikipedia.org/wiki/'
                 var val = data.response.query.pages[key];
-
-                if (val.description != null && val.description.length > 50) {
-                    val.description = val.description.substring(0, 50) + "...";
-                }
-
-                if (val.extract != null && val.extract.length > 100) {
-                    val.extract = val.extract.substring(0, 100) + "...";
-                }
-
-                var title = val.title.replace(" ","_");
-                wikipedia_link = wikipedia_link + title;
+                var id = val.pageid
+                wikipedia_link = wikipedia_link + id;
                 tableInhalt += "<tr><td>" + val.title + "</td>" + "<td>" + val.description + "</td>" + "<td>" + val.extract + "</td><td><a href=\" " + wikipedia_link + "\">" + "Wikipedia-Seite" + "</a></td></tr>";
             }
         }
